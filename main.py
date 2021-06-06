@@ -41,7 +41,7 @@ def backward(x, y, output1, output2):
 
 def update_parameters(grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2):
     global weight2, bias2, weight1, bias1
-    weight2= weight2 - (LEARNING_RATE * grad_weight_2)
+    weight2 = weight2 - (LEARNING_RATE * grad_weight_2)
     bias2 = bias2 - (LEARNING_RATE * grad_bias_2)
 
     weight1 = weight1 - (LEARNING_RATE * grad_weight_1)
@@ -56,8 +56,13 @@ def train():
         update_parameters(grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2)
 
 
+def get_predicted_fahrenheit_values():
+    _, predicted, _ = forward(celsius_values, fahrenheit_values)
+    return predicted
+
+
 train()
-_, predicted, _ = forward(celsius_values, fahrenheit_values)
+predicted = get_predicted_fahrenheit_values()
 fig, ax = plt.subplots()
 ax.plot(celsius_values, fahrenheit_values, '-b', label='Actual')
 ax.plot(celsius_values, predicted, '--r', label='Predicted')
