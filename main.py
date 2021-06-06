@@ -24,7 +24,7 @@ def forward(x,y):
 
 def backward(x, y, output1, output2):
     grad_output2 = 2 * (output2 - y) / x.shape[0]
-    grad_weight_2 = np.dot(output1.T, grad_output2) / y.shape[0]
+    grad_weight_2 = np.dot(output1.T, grad_output2) / x.shape[0]
     grad_bias_2 = np.sum(grad_output2, axis=0, keepdims=True).sum() / x.shape[0]
 
     grad_output1 = np.dot(grad_output2, weight2.T) / x.shape[0]
