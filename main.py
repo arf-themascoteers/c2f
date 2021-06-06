@@ -9,7 +9,8 @@ def celsius_to_fahrenheit(celsius):
 SAMPLE_SIZE = 100
 LEARNING_RATE = 0.01
 
-celsius_values = np.linspace(-50, 50, 100).reshape(SAMPLE_SIZE, 1)
+celsius_values = np.linspace(-50, 50, 100)
+celsius_values = celsius_values.reshape(SAMPLE_SIZE, 1)
 fahrenheit_values = celsius_to_fahrenheit(celsius_values)
 
 weight1 = np.random.randn(1, 3)
