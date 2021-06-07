@@ -20,21 +20,21 @@ weights2 = np.random.randn(3, 1)
 biases2 = np.random.randn(1, 1)
 
 
-def forward(x, y):
-    output1 = np.dot(x, weights1) + biases1
+def forward():
+    output1 = np.dot(celsius_values, weights1) + biases1
     output2 = np.dot(output1, weights2) + biases2
-    loss = np.square(output2 - y).sum() / x.shape[0]
+    loss = np.square(output2 - fahrenheit_values).sum() / SAMPLE_SIZE
     return output1, output2, loss
 
 
-def backward(x, y, output1, output2):
-    grad_output2 = 2 * (output2 - y) / x.shape[0]
-    grad_weights_2 = np.dot(output1.T, grad_output2) / x.shape[0]
-    grad_biases_2 = np.sum(grad_output2, axis=0, keepdims=True).sum() / x.shape[0]
+def backward(output1, output2):
+    grad_output2 = 2 * (output2 - fahrenheit_values) / SAMPLE_SIZE
+    grad_weights_2 = np.dot(output1.T, grad_output2) / SAMPLE_SIZE
+    grad_biases_2 = np.sum(grad_output2, axis=0, keepdims=True).sum() / SAMPLE_SIZE
 
-    grad_output1 = np.dot(grad_output2, weights2.T) / x.shape[0]
-    grad_weights_1 = np.dot(x.T, grad_output1) / x.shape[0]
-    grad_biases_1 = np.sum(grad_output1, axis=0, keepdims=True).sum() / x.shape[0]
+    grad_output1 = np.dot(grad_output2, weights2.T) / SAMPLE_SIZE
+    grad_weights_1 = np.dot(celsius_values.T, grad_output1) / SAMPLE_SIZE
+    grad_biases_1 = np.sum(grad_output1, axis=0, keepdims=True).sum() / SAMPLE_SIZE
 
     return grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2
 
@@ -50,14 +50,13 @@ def update_parameters(grad_weights_1, grad_biases_1, grad_weights_2, grad_biases
 
 def train():
     for t in range(2000):
-        output1, output2, loss = forward(celsius_values, fahrenheit_values)
-        grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2 = backward(
-            celsius_values, fahrenheit_values, output1, output2)
+        output1, output2, loss = forward()
+        grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2 = backward(output1, output2)
         update_parameters(grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2)
 
 
 def get_predicted_fahrenheit_values():
-    _, predicted, _ = forward(celsius_values, fahrenheit_values)
+    _, predicted, _ = forward()
     return predicted
 
 
