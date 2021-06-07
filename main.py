@@ -13,47 +13,47 @@ celsius_values = np.linspace(-50, 50, 100)
 celsius_values = celsius_values.reshape(SAMPLE_SIZE, 1)
 fahrenheit_values = celsius_to_fahrenheit(celsius_values)
 
-weight1 = np.random.randn(1, 3)
-bias1 = np.random.randn(1, 3)
+weights1 = np.random.randn(1, 3)
+biases1 = np.random.randn(1, 3)
 
-weight2 = np.random.randn(3, 1)
-bias2 = np.random.randn(1, 1)
+weights2 = np.random.randn(3, 1)
+biases2 = np.random.randn(1, 1)
 
 
 def forward(x, y):
-    output1 = np.dot(x, weight1) + bias1
-    output2 = np.dot(output1, weight2) + bias2
+    output1 = np.dot(x, weights1) + biases1
+    output2 = np.dot(output1, weights2) + biases2
     loss = np.square(output2 - y).sum() / x.shape[0]
     return output1, output2, loss
 
 
 def backward(x, y, output1, output2):
     grad_output2 = 2 * (output2 - y) / x.shape[0]
-    grad_weight_2 = np.dot(output1.T, grad_output2) / x.shape[0]
-    grad_bias_2 = np.sum(grad_output2, axis=0, keepdims=True).sum() / x.shape[0]
+    grad_weights_2 = np.dot(output1.T, grad_output2) / x.shape[0]
+    grad_biases_2 = np.sum(grad_output2, axis=0, keepdims=True).sum() / x.shape[0]
 
-    grad_output1 = np.dot(grad_output2, weight2.T) / x.shape[0]
-    grad_weight_1 = np.dot(x.T, grad_output1) / x.shape[0]
-    grad_bias_1 = np.sum(grad_output1, axis=0, keepdims=True).sum() / x.shape[0]
+    grad_output1 = np.dot(grad_output2, weights2.T) / x.shape[0]
+    grad_weights_1 = np.dot(x.T, grad_output1) / x.shape[0]
+    grad_biases_1 = np.sum(grad_output1, axis=0, keepdims=True).sum() / x.shape[0]
 
-    return grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2
+    return grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2
 
 
-def update_parameters(grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2):
-    global weight2, bias2, weight1, bias1
-    weight2 = weight2 - (LEARNING_RATE * grad_weight_2)
-    bias2 = bias2 - (LEARNING_RATE * grad_bias_2)
+def update_parameters(grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2):
+    global weights2, biases2, weights1, biases1
+    weights2 = weights2 - (LEARNING_RATE * grad_weights_2)
+    biases2 = biases2 - (LEARNING_RATE * grad_biases_2)
 
-    weight1 = weight1 - (LEARNING_RATE * grad_weight_1)
-    bias1 = bias1 - (LEARNING_RATE * grad_bias_1)
+    weights1 = weights1 - (LEARNING_RATE * grad_weights_1)
+    biases1 = biases1 - (LEARNING_RATE * grad_biases_1)
 
 
 def train():
     for t in range(2000):
         output1, output2, loss = forward(celsius_values, fahrenheit_values)
-        grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2 = backward(
+        grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2 = backward(
             celsius_values, fahrenheit_values, output1, output2)
-        update_parameters(grad_weight_1, grad_bias_1, grad_weight_2, grad_bias_2)
+        update_parameters(grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2)
 
 
 def get_predicted_fahrenheit_values():
@@ -61,12 +61,14 @@ def get_predicted_fahrenheit_values():
     return predicted
 
 
+predicted_before_training = get_predicted_fahrenheit_values()
 train()
-predicted = get_predicted_fahrenheit_values()
+predicted_after_training = get_predicted_fahrenheit_values()
 fig, ax = plt.subplots()
 ax.plot(celsius_values, fahrenheit_values, '-b', label='Actual')
-ax.plot(celsius_values, predicted, '--r', label='Predicted')
+ax.plot(celsius_values, predicted_before_training, '--r', label='Predicted before Training')
+ax.plot(celsius_values, predicted_after_training, '--g', label='Predicted after Training')
 plt.xlabel("Celsius")
 plt.ylabel("Fahrenheit")
-ax.legend(loc='upper left', frameon=False)
+ax.legend(frameon=False)
 plt.show()
