@@ -30,11 +30,11 @@ def forward():
 def backward(output1, output2):
     grad_output2 = 2 * (output2 - fahrenheit_values) / SAMPLE_SIZE
     grad_weights_2 = np.dot(output1.T, grad_output2)
-    grad_biases_2 = np.sum(grad_output2, axis=0, keepdims=True).sum()
+    grad_biases_2 = np.sum(grad_output2)
 
     grad_output1 = np.dot(grad_output2, weights2.T)
     grad_weights_1 = np.dot(celsius_values.T, grad_output1)
-    grad_biases_1 = np.sum(grad_output1, axis=0, keepdims=True).sum()
+    grad_biases_1 = np.sum(grad_output1)
 
     return grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2
 
