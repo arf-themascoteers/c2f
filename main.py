@@ -56,8 +56,8 @@ def train():
 
 
 def get_predicted_fahrenheit_values():
-    _, predicted, _ = forward()
-    return predicted
+    output1, prediction, loss = forward()
+    return prediction
 
 
 predicted_before_training = get_predicted_fahrenheit_values()
