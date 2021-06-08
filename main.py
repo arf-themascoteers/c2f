@@ -13,10 +13,10 @@ celsius_values = np.linspace(-50, 50, 100)
 celsius_values = celsius_values.reshape(SAMPLE_SIZE, 1)
 fahrenheit_values = celsius_to_fahrenheit(celsius_values)
 
-weights1 = np.random.randn(1, 3)
-biases1 = np.random.randn(1, 3)
+weights1 = np.random.randn(1, 1)
+biases1 = np.random.randn(1, 2)
 
-weights2 = np.random.randn(3, 1)
+weights2 = np.random.randn(2, 1)
 biases2 = np.random.randn(1, 1)
 
 
