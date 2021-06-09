@@ -42,15 +42,15 @@ def backward(output1, output2):
 def update_parameters(grad_weights_1, grad_biases_1, grad_weights_2, grad_biases_2):
     global weights2, biases2, weights1, biases1
 
-    amount_to_be_updated_wights2 = (LEARNING_RATE * grad_weights_2)
-    amount_to_be_updated_biases2 = (LEARNING_RATE * grad_biases_2)
-    amount_to_be_updated_wights1 = (LEARNING_RATE * grad_weights_1)
-    amount_to_be_updated_biases1 = (LEARNING_RATE * grad_biases_1)
+    descent_wights2 = (LEARNING_RATE * grad_weights_2)
+    descent_biases2 = (LEARNING_RATE * grad_biases_2)
+    descent_wights1 = (LEARNING_RATE * grad_weights_1)
+    descent_biases1 = (LEARNING_RATE * grad_biases_1)
 
-    weights2 = weights2 - amount_to_be_updated_wights2
-    biases2 = biases2 - amount_to_be_updated_biases2
-    weights1 = weights1 - amount_to_be_updated_wights1
-    biases1 = biases1 - amount_to_be_updated_biases1
+    weights2 = weights2 - descent_wights2
+    biases2 = biases2 - descent_biases2
+    weights1 = weights1 - descent_wights1
+    biases1 = biases1 - descent_biases1
 
 
 def train():
